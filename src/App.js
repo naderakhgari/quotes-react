@@ -1,24 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import RandomQuote from "./RandomQuote";
+import "./App.css";
 
 function App() {
+  const [quotesData, setQuotesData] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://cyf-naderakhgari-quotes-api.herokuapp.com/quotes/random`)
+      .then((res) => res.json())
+      .then((data) => setQuotesData(data));
+  }, []);
+
+  const newQuote = () => {
+    fetch(`https://cyf-naderakhgari-quotes-api.herokuapp.com/quotes/random`)
+      .then((res) => res.json())
+      .then((data) => setQuotesData(data));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="main">
+      <div className="App">
+        <button onClick={newQuote} className="new-quote-btn">
+          New quote
+        </button>
+      </div>
+      <RandomQuote quotesData={quotesData} />
     </div>
   );
 }
